@@ -1,0 +1,29 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ main ]  # Cambia esto si tu rama principal se llama diferente
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Iniciar servidor (npm run start)
+        run: |
+          npm run start &
+          sleep 3  # Esperar unos segundos a que el servidor esté listo
+
+      - name: Verificar ruta /saludo
+        run: curl http://localhost:3000/saludo
